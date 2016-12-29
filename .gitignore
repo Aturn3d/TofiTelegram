@@ -243,3 +243,8 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Bot.Web/Properties/PublishProfiles/TofiBot - Web Deploy.pubxml
+/Bot.Web/Properties/PublishProfiles/TofiBot - FTP.pubxml
+/Bot.Web/Properties/PublishProfiles
+/Bot.ApplicationForTests
+/TelegramBotTest

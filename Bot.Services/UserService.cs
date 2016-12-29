@@ -9,10 +9,13 @@ namespace Bot.Services
     {
         User GetUser(int id);
         User GetUserByName(string name);
+        User GetByChatId(long chatId);
+        User GetByTelegramUserId(int userId);
         IEnumerable<User> GetUsers();
         void Update(User user);
         bool CreateUser(User user);
         IEnumerable<User> Search(string search);
+        void CreateOrUpdateUser(User user);
     }
 
 
@@ -34,9 +37,9 @@ namespace Bot.Services
 
         public bool CreateUser(User user)
         {
-            if (user.UserId != 0) return false;
+            if (user.Id != 0) return false;
             userRepository.Add(user);
-            uof.Commit();
+            Save();
             return true;
         }
 
@@ -47,7 +50,17 @@ namespace Bot.Services
             return userRepository.Get(u => u.NickName.Equals(name));
         }
 
-        public void Save()
+        public User GetByChatId(long chatId)
+        {
+            return userRepository.Get(u => u.ChatId == chatId);
+        }
+
+        public User GetByTelegramUserId(int userId)
+        {
+            return userRepository.Get(u => u.UserId == userId);
+        }
+
+        private void Save()
         {
             uof.Commit();
         }
@@ -55,7 +68,7 @@ namespace Bot.Services
         public void Update(User user)
         {
             userRepository.Update(user);
-            uof.Commit();
+            Save();
         }
 
         public IEnumerable<User> Search(string search)
@@ -63,7 +76,17 @@ namespace Bot.Services
             var s = search.ToLower();
             return userRepository.GetMany(u => u.NickName.ToLower().Contains(s));
         }
-       
+
+        public void CreateOrUpdateUser(User user)
+        {
+            if (user.Id == 0) {
+                CreateUser(user);
+            }
+            else {
+                Update(user);
+            }
+        }
+
 
         public IEnumerable<User> GetUsers()
         {

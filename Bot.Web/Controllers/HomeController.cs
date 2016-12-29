@@ -3,34 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Bot.Model;
+using System.Web.Http.Results;
 using Bot.Services;
+using Telegram.Bot.Types;
+using User = Bot.Model.User;
+using TelegramBot;
 
 namespace Bot.Web.Controllers
 {
     public class HomeController : ApiController
     {
-        private IUserService userService;
+        private ITelegramBotService botService;
 
-
-        public HomeController(IUserService userService)
+        public HomeController(ITelegramBotService botService)
         {
-            this.userService = userService;
+            this.botService = botService;
         }
 
-
-        [HttpGet]
-        public IEnumerable<User> Get()
+        [HttpPost]
+        public OkResult Post([FromBody]Update value)
         {
-            var u = userService.GetUsers();
-            userService.CreateUser(new User()
-            {
-                NickName = "Жора"
-            });
-            return  userService.GetUsers(); 
+           // botService.SendMessage(173644453,"ПРИВЕТ!!!!");
+            return Ok();
         }
-
 
     }
 }
