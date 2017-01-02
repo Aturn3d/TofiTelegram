@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Bot.Services.States;
+using Bot.Services.Common;
 using Bot.Services.States.Base;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using TelegramBot;
 using User = Bot.Model.User;
 
 namespace Bot.Services
@@ -18,43 +13,53 @@ namespace Bot.Services
     {
         Task HandleUpdate(Update update);
         //for Debug Purpose
-
     }
 
 
-    public class TelegramBotService: ITelegramBotService
+    public class TelegramBotService : ITelegramBotService
     {
-        private IUserService userService;
+        private readonly IUserService userService;
         private State _state;
         private Update _update;
 
         internal User User { get; private set; }
-        internal ITelegramBotClient Bot { get; private set; }
-        
-       
+        internal ITelegramBotClient Bot { get; }
+
+
         public TelegramBotService(IUserService userService, IBotFactory botFactory)
         {
             this.userService = userService;
             Bot = botFactory.GetTelegramBot();
         }
-        
+
         public async Task HandleUpdate(Update update)
         {
-            try {
-                this._update = update;
-                User = GetUser(GetUserIdFromUpdate());
-                _state = StateFactory.GetState((StatesTypes)User.ChatState);
-                await _state.HandleUpdate(this, _update);
+            _update = update;
+            var userId = GetUserIdFromUpdate();
+            var cachedUser = UsersCache.GetOrAdd(userId);
+            if (cachedUser.IsProcessing) {
+                await Bot.SendTextMessageAsync(userId, "Ваш предыдущий запрос обрабатывается, ожидайте");
             }
-            finally {
-                User.ChatState = (int)_state.StateTypesId;
-                userService.CreateOrUpdateUser(User);
+            else {
+                try {
+                    cachedUser.IsProcessing = true;
+                    User = GetUser(userId);
+                    await Bot.SendChatActionAsync(User.ChatId, ChatAction.Typing);
+                    _state = State.GetState((StatesTypes) User.ChatState, this, update);
+                    await _state.HandleUpdate();
+                }
+                finally {
+                    User.ChatState = (int) _state.StateTypesId;
+                    userService.CreateOrUpdateUser(User);
+                    cachedUser.IsProcessing = false;
+                }
             }
         }
 
         internal void SetState(State state)
         {
-            this._state = state;
+            _state = state;
+            state.PrepareState();
         }
 
         private long GetChatId()
@@ -82,7 +87,7 @@ namespace Bot.Services
 
         private User GetUser(int userId)
         {
-            return userService.GetByTelegramUserId(userId) ?? new User()
+            return userService.GetByTelegramUserId(userId) ?? new User
             {
                 ChatId = GetChatId(),
                 UserId = userId

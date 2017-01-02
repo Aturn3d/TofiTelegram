@@ -16,10 +16,18 @@ namespace Bot.Services.States.Commands
         public static ICommand CreateCommand(string text)
         {
             //TODO: Сделать свитч?
-            if (text.ToUpperInvariant().StartsWith("/EXCHANGE")) {
-                return new ExchangeCommand();
+            switch (text.ToUpperInvariant()) {
+                case "/EXCHANGE":
+                    return new ExchangeCommand();
+                case "/RETURN":
+                    return new ReturnToMainMenuCommand();
+                case "/HELP":
+                    return new HelpCommand();
+                case "/PAYMENT":
+                    return new PaymentCommand();
+                default:
+                    return null;
             }
-            return null;
         }
     }
 }
