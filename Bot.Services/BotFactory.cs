@@ -15,10 +15,18 @@ namespace Bot.Services
 
     public class BotFactory: IBotFactory
     {
-        public Lazy<string> Token = new Lazy<string>(() => ConfigurationManager.AppSettings["Token"]);
+        public static Lazy<string> Token = new Lazy<string>(() => ConfigurationManager.AppSettings["Token"]);
+        private static Lazy<TelegramBotClient> Bot = new Lazy<TelegramBotClient>(
+            () =>
+            {
+                var bot = new TelegramBotClient(Token.Value);
+
+                bot.SetWebhookAsync("https://tofibot.azurewebsites.net/api/Home");
+                return bot;
+            });
         public ITelegramBotClient GetTelegramBot()
         {
-          return new TelegramBotClient(Token.Value);
+          return Bot.Value;
         }
     }
 }

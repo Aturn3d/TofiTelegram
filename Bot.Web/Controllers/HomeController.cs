@@ -21,11 +21,11 @@ namespace Bot.Web.Controllers
         {
             this.botService = botService;
         }
-
+        
         [HttpPost]
-        public OkResult Post([FromBody]Update value)
+        public async Task<IHttpActionResult> Post([FromBody]Update value)
         {
-           // botService.SendMessage(173644453,"ПРИВЕТ!!!!");
+            await botService.HandleUpdate(value);
             return Ok();
         }
 
