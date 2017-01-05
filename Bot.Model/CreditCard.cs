@@ -10,5 +10,7 @@ namespace Bot.Model
     {
         public int Id { get; set; }
         public string CardNumber { get; set; }
+        public string CvvCode { get; set; }
+        public string ExpirationDate { get; set; }
     }
 }
