@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="BotFactory.cs" />
     <Compile Include="Common\UsersCache.cs" />
+    <Compile Include="Common\Validators.cs" />
+    <Compile Include="PaymentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\Commands\CommandFactory.cs" />
     <Compile Include="States\Commands\ExchangeCommand.cs" />
@@ -71,6 +73,10 @@
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AuthorizePayment\AuthorizePayment.csproj">
+      <Project>{1295e391-a2d0-4811-b749-a363aad89f4d}</Project>
+      <Name>AuthorizePayment</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bot.DAL\Bot.DAL.csproj">
       <Project>{5773a8ad-f7f1-4d83-b504-8f003498c85d}</Project>
       <Name>Bot.DAL</Name>

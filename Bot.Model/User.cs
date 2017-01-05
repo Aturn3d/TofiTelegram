@@ -14,7 +14,7 @@ namespace Bot.Model
         public long ChatId { get; set; }
         public long UserId { get; set; }
         public int ChatState { get; set; }
-
+        public string MobilePhone { get; set; }
 
         public CreditCard CreditCard { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }

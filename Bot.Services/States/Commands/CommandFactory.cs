@@ -15,7 +15,6 @@ namespace Bot.Services.States.Commands
     {
         public static ICommand CreateCommand(string text)
         {
-            //TODO: Сделать свитч?
             switch (text.ToUpperInvariant()) {
                 case "/EXCHANGE":
                     return new ExchangeCommand();

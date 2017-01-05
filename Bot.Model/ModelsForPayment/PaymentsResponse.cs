@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Bot.Model
 {
-    public class Payment
+    public class PaymentsResponse
     {
-        public int Id { get; set; }
         public string TransactionId { get; set; }
         public DateTime Date { get; set; }
+        public string Code { get; set; }
+        public string MessCode { get; set; }
+        public string Description { get; set; }
+        public bool IsError { get; set; }
     }
 }

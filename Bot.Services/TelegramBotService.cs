@@ -19,16 +19,18 @@ namespace Bot.Services
     public class TelegramBotService : ITelegramBotService
     {
         private readonly IUserService userService;
+       
         private State _state;
         private Update _update;
 
         internal User User { get; private set; }
         internal ITelegramBotClient Bot { get; }
+        internal IPaymentService PaymentService { get; }
 
-
-        public TelegramBotService(IUserService userService, IBotFactory botFactory)
+        public TelegramBotService(IUserService userService, IBotFactory botFactory, IPaymentService paymentService)
         {
             this.userService = userService;
+            this.PaymentService = paymentService;
             Bot = botFactory.GetTelegramBot();
         }
 
@@ -67,6 +69,11 @@ namespace Bot.Services
             return _update.Message.Chat.Id;
         }
 
+        private string GetUserName()
+        {
+            return _update.Message.From.Username;
+        }
+
         private int GetUserIdFromUpdate()
         {
             switch (_update.Type) {
@@ -90,7 +97,8 @@ namespace Bot.Services
             return userService.GetByTelegramUserId(userId) ?? new User
             {
                 ChatId = GetChatId(),
-                UserId = userId
+                UserId = userId,
+                NickName = GetUserName()
             };
         }
     }
