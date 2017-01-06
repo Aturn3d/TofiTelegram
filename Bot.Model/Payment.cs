@@ -16,7 +16,6 @@ namespace Bot.Model
         public bool IsSuccess { get; set; }
         public DateTime Date { get; set; }
         public string Code { get; set; }
-        public string MessCode { get; set; }
         public string TransactionDescription { get; set; }
 
     }

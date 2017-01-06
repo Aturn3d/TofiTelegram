@@ -71,7 +71,7 @@ namespace Bot.Services
 
         private string GetUserName()
         {
-            return _update.Message.From.Username;
+            return _update.Message.From.FirstName + " " + _update.Message.From.LastName;
         }
 
         private int GetUserIdFromUpdate()

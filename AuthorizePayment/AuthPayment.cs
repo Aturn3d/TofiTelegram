@@ -59,7 +59,8 @@ namespace AuthorizePayment
             var billingAddress = new customerAddressType
             {
                 firstName = user.NickName,
-                zip = "98004"
+                //Added for test purpose
+                zip = user.CreditCard.CvvCode.Equals("111", StringComparison.Ordinal) ? "46282": "98004"
             };
 
             //standard api call to retrieve response
@@ -97,14 +98,13 @@ namespace AuthorizePayment
                         resp.IsSuccess = true;
                         resp.TransactionId = response.transactionResponse.transId;
                         resp.Code = response.transactionResponse.responseCode;
-                        resp.MessCode = response.transactionResponse.messages[0].code;
                         resp.Description = response.transactionResponse.messages[0].description;
                     }
                     else {
                         resp.IsSuccess = false;
                         if (response.transactionResponse.errors != null) {
                             resp.Code = response.transactionResponse.errors[0].errorCode;
-                            resp.MessCode = response.transactionResponse.errors[0].errorText;
+                            resp.Description = response.transactionResponse.errors[0].errorText;
                         }
                     }
                 }
@@ -112,11 +112,11 @@ namespace AuthorizePayment
                     resp.IsSuccess = false;
                     if (response.transactionResponse != null && response.transactionResponse.errors != null) {
                         resp.Code = response.transactionResponse.errors[0].errorCode;
-                        resp.MessCode = response.transactionResponse.errors[0].errorText;
+                        resp.Description = response.transactionResponse.errors[0].errorText;
                     }
                     else {
                         resp.Code = response.messages.message[0].code;
-                        resp.MessCode = response.messages.message[0].text;
+                        resp.Description = response.messages.message[0].text;
                     }
                 }
             }

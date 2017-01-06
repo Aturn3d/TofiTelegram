@@ -18,7 +18,8 @@ namespace Bot.Services.States.Base
 Test card numbers: 
             4007000000027
             4012888818888
-            4111111111111111";
+            4111111111111111
+To Decline transaction use Cvv code 111";
 
         internal InitialState(TelegramBotService botService, Update update) : base(botService, update) { }
 
