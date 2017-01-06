@@ -24,6 +24,8 @@ namespace Bot.Services.States.Commands
                     return new HelpCommand();
                 case "/PAYMENT":
                     return new PaymentCommand();
+                case "/LASTPAYMENTS":
+                    return new LastPaymentsCommand();
                 default:
                     return null;
             }

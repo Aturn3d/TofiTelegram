@@ -15,19 +15,19 @@ namespace Bot.Services.States.Commands
                {
                     new[] // first row
                     {
-                        new InlineKeyboardButton("Внести депозит", nameof(Payments.Deposit)),
+                        new InlineKeyboardButton("Внести депозит", ((int)Payments.Deposit).ToString()),
                     
                     },
                     new[] // second row
                     {
-                        new InlineKeyboardButton("Перевод денег со счета на счет", nameof(Payments.MoneyTransfer)),
+                        new InlineKeyboardButton("Money Transfer",  ((int)Payments.MoneyTransfer).ToString()),
                       //  new InlineKeyboardButton("2.2")
                     }
                 }));
 
         public async Task Execute(TelegramBotService botService)
         {
-            await botService.Bot.SendTextMessageAsync(botService.User.ChatId, "Возможные типы оплаты",
+            await botService.Bot.SendTextMessageAsync(botService.User.ChatId, "Choose payment",
                 replyMarkup: keyboard.Value);
             botService.SetState(new PaymentStartState(botService, null));
         }

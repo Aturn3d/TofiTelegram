@@ -1,13 +1,27 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Bot.Model;
 using Bot.Services.States.Commands;
+using Bot.Services.States.MoneyTransfer;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Bot.Services.States.Base
 {
-    internal abstract class State
+    public abstract class State
     {
+        protected const string CardItemsDelimeter = "|";
         // await Bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
+        private static Lazy<InlineKeyboardMarkup> keyboardYesNo = new Lazy<InlineKeyboardMarkup>(
+            () => new InlineKeyboardMarkup(new[]
+               {
+                    new[] // first row
+                    {
+                        new InlineKeyboardButton("Yes", "1"),
+                        new InlineKeyboardButton("No", "0"),
+                    }
+                }));
+
 
         public static readonly Task TaskCompleted = Task.FromResult(0);
         protected Update Update;
@@ -20,7 +34,7 @@ namespace Bot.Services.States.Base
         }
 
         protected abstract Task Handle();
-        public abstract StatesTypes StateTypesId { get; }
+        internal abstract StatesTypes StateTypesId { get; }
 
         public async Task HandleUpdate()
         {
@@ -34,11 +48,32 @@ namespace Bot.Services.States.Base
         {
             //Basic behavior. Do nothing
             return TaskCompleted;
-        } 
+        }
+
+        protected void AddPayment(Payment p)
+        {
+            BotService.User.Payments.Add(p);
+        }
 
         protected virtual async Task HandleError()
         {
-            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Ввод не соответвует ожиданию");
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Your input is incorrect! No soup for you");
+        }
+
+        protected async Task AskForCreditCard(State nextState)
+        {
+            const string text = "Please, enter your credit card data in such format: card_number" + CardItemsDelimeter + "cvv_code" + CardItemsDelimeter + "expiration_date." +
+                                "For test purpose use this data: 4111111111111111"+ CardItemsDelimeter + "123" + CardItemsDelimeter + "1217";
+            if (BotService.User.CreditCard != null) {
+                var card = BotService.User.CreditCard.CardNumber;
+                await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId,
+                    $"Use existin card?{Environment.NewLine} Card Number:{card.Remove(0, card.Length - 4).PadLeft(card.Length, '*')}",
+                    replyMarkup: keyboardYesNo.Value);
+            }
+            else {
+                await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, text);
+            }
+            BotService.SetState(nextState);
         }
 
         private async Task<bool> HandleCommands()
@@ -56,7 +91,7 @@ namespace Bot.Services.States.Base
         }
 
         #region FactoryMethod
-        public static State GetState(StatesTypes stateTypesId, TelegramBotService botService, Update update)
+        internal static State GetState(StatesTypes stateTypesId, TelegramBotService botService, Update update)
         {
             switch (stateTypesId)
             {
@@ -66,6 +101,10 @@ namespace Bot.Services.States.Base
                     return new ExchangeState(botService, update);
                 case StatesTypes.PayStart:
                     return new PaymentStartState(botService, update);
+                case StatesTypes.MoneyTransfer:
+                    return new MoneyTransferState(botService, update);
+                case StatesTypes.MoneyTransferEnd:
+                    return new MoneyTransferEndState(botService, update);
                 default:
                     return GetDefaultState(botService, update);
             }
@@ -79,6 +118,8 @@ namespace Bot.Services.States.Base
     {
         InitialState = 0,
         Exchange,
-        PayStart
+        PayStart,
+        MoneyTransfer,
+        MoneyTransferEnd
     }
 }

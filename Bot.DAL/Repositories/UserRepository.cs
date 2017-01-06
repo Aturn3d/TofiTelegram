@@ -13,7 +13,10 @@ namespace Bot.DAL.Repositories
 
         public override User Get(Expression<Func<User, bool>> where)
         {
-            return dbSet.Where(where).Include(u => u.CreditCard).FirstOrDefault();
+               return dbSet.Where(where)
+              .Include(u => u.CreditCard)
+              .Include(u => u.Payments)
+              .FirstOrDefault();
         }
     }
 

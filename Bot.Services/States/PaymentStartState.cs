@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bot.Services.States.Base;
+using Bot.Services.States.MoneyTransfer;
 using Telegram.Bot.Types;
 
 namespace Bot.Services.States
@@ -15,16 +16,27 @@ namespace Bot.Services.States
         {
             var query = Update.CallbackQuery;
             if (query != null) {
-                await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, query.Data);
-                await BotService.Bot.AnswerCallbackQueryAsync(query.Id);
+                int p;
+                if (!Int32.TryParse(query.Data, out p)) {
+                    await HandleError();
+                    return;
+                }
+                switch ((Payments) p) {
+                    case Payments.Deposit:
+                        break;
+                    case Payments.MoneyTransfer:
+                        await AskForCreditCard(new MoneyTransferState(BotService, Update));
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
             else {
                 await HandleError();
             }
-           
         }
 
-        public override StatesTypes StateTypesId => StatesTypes.PayStart;
+        internal override StatesTypes StateTypesId => StatesTypes.PayStart;
     }
 
     enum Payments

@@ -18,11 +18,12 @@ namespace AuthorizePayment
         private static string ApiLoginId = ConfigurationManager.AppSettings["ApiLoginId"];
         private static string TransactionKey = ConfigurationManager.AppSettings["TransactionKey"];
 
-        public static PaymentsResponse TransferMoney(User user, Card cardTo, decimal amount)
+        public static Payment TransferMoney(User user, Card cardTo, decimal amount)
         {
             var lineItem = new lineItemType
             {
-                itemId = $"recipient's card number: {cardTo.Number}",
+                itemId = "1",
+                description = $"recipient's card number: {cardTo.Number}",
                 name = "Money transfer",
                 quantity = 1,
                 unitPrice = amount
@@ -32,7 +33,7 @@ namespace AuthorizePayment
 
 #region Private Methods
 
-        private static PaymentsResponse AutorizeAndCaptureFund(User user, decimal amount, lineItemType lineItem)
+        private static Payment AutorizeAndCaptureFund(User user, decimal amount, lineItemType lineItem)
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = Environment.SANDBOX;
 
@@ -89,18 +90,18 @@ namespace AuthorizePayment
 
             //TODO: Заполнять объект PaymentResponse
             //validate
-            var resp = new PaymentsResponse();
+            var resp = new Payment();
             if (response != null) {
                 if (response.messages.resultCode == messageTypeEnum.Ok) {
                     if (response.transactionResponse.messages != null) {
-                        resp.IsError = false;
+                        resp.IsSuccess = true;
                         resp.TransactionId = response.transactionResponse.transId;
                         resp.Code = response.transactionResponse.responseCode;
                         resp.MessCode = response.transactionResponse.messages[0].code;
                         resp.Description = response.transactionResponse.messages[0].description;
                     }
                     else {
-                        resp.IsError = true;
+                        resp.IsSuccess = false;
                         if (response.transactionResponse.errors != null) {
                             resp.Code = response.transactionResponse.errors[0].errorCode;
                             resp.MessCode = response.transactionResponse.errors[0].errorText;
@@ -108,7 +109,7 @@ namespace AuthorizePayment
                     }
                 }
                 else {
-                    resp.IsError = true;
+                    resp.IsSuccess = false;
                     if (response.transactionResponse != null && response.transactionResponse.errors != null) {
                         resp.Code = response.transactionResponse.errors[0].errorCode;
                         resp.MessCode = response.transactionResponse.errors[0].errorText;
@@ -125,6 +126,8 @@ namespace AuthorizePayment
             }
 
             resp.Date = DateTime.Now;
+            resp.TransactionDescription = $"{lineItem.name}: {lineItem.description}";
+            resp.Amount = lineItem.unitPrice;
             return resp;
         }
 

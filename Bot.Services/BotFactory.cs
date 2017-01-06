@@ -20,8 +20,9 @@ namespace Bot.Services
             () =>
             {
                 var bot = new TelegramBotClient(Token.Value);
-
+#if !DEBUG
                 bot.SetWebhookAsync("https://tofibot.azurewebsites.net/api/Home");
+#endif
                 return bot;
             });
         public ITelegramBotClient GetTelegramBot()

@@ -49,7 +49,7 @@ namespace Bot.Services.States
             }
         }
 
-        public override StatesTypes StateTypesId { get; } = StatesTypes.Exchange;
+        internal override StatesTypes StateTypesId { get; } = StatesTypes.Exchange;
 
         class ExchangeRateJson
         {

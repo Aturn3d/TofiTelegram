@@ -12,8 +12,13 @@ namespace Bot.Services.States.Base
         internal const string commandsList = @"Список команд
 /exchange - информация о курсе валют по отношению к BYN
 /payment - cписок платежей
+/lastPayments - 10 last payments
 /help - список доступных команд
-/return - отменить текущую операцию и вернуться в главное меню";
+/return - отменить текущую операцию и вернуться в главное меню
+Test card numbers: 
+            4007000000027
+            4012888818888
+            4111111111111111";
 
         internal InitialState(TelegramBotService botService, Update update) : base(botService, update) { }
 
@@ -27,7 +32,7 @@ namespace Bot.Services.States.Base
             await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, commandsList);
         }
 
-        public override StatesTypes StateTypesId => StatesTypes.InitialState;
+        internal override StatesTypes StateTypesId => StatesTypes.InitialState;
         
     }
 }

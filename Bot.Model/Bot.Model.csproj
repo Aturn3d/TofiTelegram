@@ -43,7 +43,6 @@
     <Compile Include="CreditCard.cs" />
     <Compile Include="ModelsForPayment\Card.cs" />
     <Compile Include="Payment.cs" />
-    <Compile Include="ModelsForPayment\PaymentsResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>

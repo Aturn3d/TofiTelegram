@@ -10,6 +10,14 @@ namespace Bot.Model
     {
         public int Id { get; set; }
         public string TransactionId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public decimal Amount { get; set; }
+        public bool IsSuccess { get; set; }
         public DateTime Date { get; set; }
+        public string Code { get; set; }
+        public string MessCode { get; set; }
+        public string TransactionDescription { get; set; }
+
     }
 }
