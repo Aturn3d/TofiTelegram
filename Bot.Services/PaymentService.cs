@@ -12,6 +12,7 @@ namespace Bot.Services
     public interface IPaymentService
     {
         Payment TransferMoney(User user);
+        Payment PhonePay(User user);
     }
     public class PaymentService: IPaymentService
     {
@@ -21,6 +22,18 @@ namespace Bot.Services
         {
             var card = new Card(user.CurrentPayment.To);
             return AuthPayment.TransferMoney(user, card, user.CurrentPayment.Amount);
+        }
+
+        public Payment PhonePay(User user)
+        {
+            var phone = new Phone(user.CurrentPayment.To, user.CurrentPayment.Account, user.CurrentPayment.Amount);
+            return AuthPayment.PhonePay(user, phone);
+        }
+
+        public Payment InternetPay(User user)
+        {
+            var internet = new Internet(user.CurrentPayment.To, user.CurrentPayment.Account, user.CurrentPayment.Amount);
+            return AuthPayment.InternetPay(user, internet);
         }
     }
 }
