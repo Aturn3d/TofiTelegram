@@ -10,12 +10,12 @@ namespace Bot.Services.States.Base
 {
     internal class InitialState:State
     {
-        internal const string commandsList = @"Список команд
-/exchange - информация о курсе валют по отношению к BYN
-/payment - cписок платежей
+        internal const string commandsList = @"List of Commands:
+/exchange - Information about the currencies exchange rate
+/payment - List of payments
 /lastPayments - 10 last payments
-/help - список доступных команд
-/return - отменить текущую операцию и вернуться в главное меню
+/help - A list of available commands
+/return - Cancel the current operation and return to the main menu
 Test card numbers: 
             4007000000027
             4012888818888
