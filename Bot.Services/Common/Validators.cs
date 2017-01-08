@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Bot.Services.Common
@@ -39,6 +40,20 @@ namespace Bot.Services.Common
                     ulong d;
                     return s.Length == 10 && ulong.TryParse(s, out d);
                  }
+            }
+        };
+
+
+        static Dictionary<string, string> PhoneValidator = new Dictionary<string, string>()
+        {
+            {
+                "Mts", @"\+375(29|33)[0-9]{7}\b"
+            },
+            {
+                "Velcom", @"\+375(29|44)[0-9]{7}\b"
+            },
+            {
+                 "Life", @"\+375(29|25)[0-9]{7}\b"
             }
         };
 
@@ -90,6 +105,32 @@ public static bool ValidateCardNumber(string cardNumber)
             }
 
             return errors;
+        }
+
+        public static List<string> ValidatePhone(Phone phone)
+        {
+            var errors = new List<string>();
+            string v;
+            var haveProvider = PhoneValidator.TryGetValue(phone.Operator, out v);
+            if (haveProvider)
+            {
+                var correctNumber = new Regex(v).IsMatch(phone.Number);
+                if (!correctNumber)
+                {
+                    errors.Add("Uncorrect number for this operator");
+                }
+            }
+            else
+            {
+                errors.Add("We don't support this operator");
+            }
+
+            if (phone.Amount < 1 || phone.Amount > 100)
+            {
+                errors.Add("amount should be from 1 to 100 dollars");
+            }
+
+            return errors;    
         }
     }
 }
