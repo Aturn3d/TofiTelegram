@@ -13,7 +13,7 @@ namespace Bot.Services.States.Base
         internal const string commandsList = @"List of Commands:
 /exchange - Information about the currencies exchange rate
 /payment - List of payments
-/lastPayments - 10 last payments
+/lastpayments - 10 last payments
 /help - A list of available commands
 /return - Cancel the current operation and return to the main menu
 Test card numbers: 

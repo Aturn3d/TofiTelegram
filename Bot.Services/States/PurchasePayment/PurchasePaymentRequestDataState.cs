@@ -40,7 +40,7 @@ namespace Bot.Services.States.TicketsPayment
 
         public override async Task PrepareState()
         {
-            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Enter code of your purchase request");
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Enter code of your purchase request\nFor Test(length of code should be equal to 4)");
         }
 
         protected override async Task HandleError()
@@ -48,6 +48,6 @@ namespace Bot.Services.States.TicketsPayment
             await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Your code is not valid");
         }
 
-        internal override StatesTypes StateTypesId => StatesTypes.TicketsPaymentRequestDate;
+        internal override StatesTypes StateTypesId => StatesTypes.PurchasePaymentRequestDate;
     }
 }

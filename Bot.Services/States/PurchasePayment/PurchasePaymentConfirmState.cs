@@ -9,7 +9,7 @@ namespace Bot.Services.States.PurchasePayment
     internal class PurchasePaymentConfirmState : ConfirmStateBase
     {
         public PurchasePaymentConfirmState(TelegramBotService botService, Update update) : base(botService, update) {}
-        internal override StatesTypes StateTypesId => StatesTypes.TicketsPaymentConfirm;
+        internal override StatesTypes StateTypesId => StatesTypes.PurchasePaymentConfirm;
 
         protected override async Task HandlePayment()
         {
