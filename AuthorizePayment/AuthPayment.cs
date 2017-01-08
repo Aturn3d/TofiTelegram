@@ -31,7 +31,33 @@ namespace AuthorizePayment
             return AutorizeAndCaptureFund(user, amount, lineItem);
         }
 
-#region Private Methods
+        public static Payment PhonePay(User user, Phone phone)
+        {
+            var lineItem = new lineItemType
+            {
+                itemId = "1",
+                description = $"Operator: {phone.Operator}, number: {phone.Number}",
+                name = "Money transfer",
+                quantity = 1,
+                unitPrice = phone.Amount
+            };
+            return AutorizeAndCaptureFund(user, phone.Amount, lineItem);
+        }
+
+        public static Payment InternetPay(User user, Internet internet)
+        {
+            var lineItem = new lineItemType
+            {
+                itemId = "1",
+                description = $"Operator: {internet.Operator}, account: {internet.Account}",
+                name = "Money transfer",
+                quantity = 1,
+                unitPrice = internet.Amount
+            };
+            return AutorizeAndCaptureFund(user, internet.Amount, lineItem);
+        }
+
+        #region Private Methods
 
         private static Payment AutorizeAndCaptureFund(User user, decimal amount, lineItemType lineItem)
         {
