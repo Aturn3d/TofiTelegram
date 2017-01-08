@@ -7,6 +7,8 @@ using Bot.Services.States.Base;
 using Bot.Services.States.InternetPayment;
 using Bot.Services.States.MobilePayment;
 using Bot.Services.States.MoneyTransfer;
+using Bot.Services.States.PurchasePayment;
+using Bot.Services.States.TicketsPayment;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -37,6 +39,16 @@ namespace Bot.Services.States
                     {
                         new InlineKeyboardButton("Pay for mobile",  ((int)Payments.MobilePayment).ToString()),
 
+                    },
+                      new[]
+                    {
+                        new InlineKeyboardButton("Pay for ticket",  ((int)Payments.TicketsPayment).ToString()),
+
+                    },
+                       new[]
+                    {
+                        new InlineKeyboardButton("Pay for purchase",  ((int)Payments.PurchasePayment).ToString()),
+
                     }
                 }));
         public PaymentStartState(TelegramBotService botService, Update update) : base(botService, update) {}
@@ -61,6 +73,12 @@ namespace Bot.Services.States
                     case Payments.MobilePayment:
                         BotService.SetState(new MobilePaymentProviderState(BotService, Update));
                         break;
+                    case Payments.TicketsPayment:
+                        BotService.SetState(new TicketsPaymentState(BotService, Update));
+                        break;
+                    case Payments.PurchasePayment:
+                        BotService.SetState(new PurchasePaymentState(BotService, Update));
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -84,6 +102,8 @@ namespace Bot.Services.States
         Deposit,
         MoneyTransfer,
         InternetPayment,
-        MobilePayment
+        MobilePayment,
+        TicketsPayment,
+        PurchasePayment
     }
 }

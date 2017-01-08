@@ -82,6 +82,12 @@
     <Compile Include="States\MoneyTransfer\MoneyTransferConfirmState.cs" />
     <Compile Include="States\MoneyTransfer\MoneyTransferRequestDataState.cs" />
     <Compile Include="States\MoneyTransfer\MoneyTransferState.cs" />
+    <Compile Include="States\PurchasePayment\PurchasePaymentConfirmState.cs" />
+    <Compile Include="States\PurchasePayment\PurchasePaymentRequestDataState.cs" />
+    <Compile Include="States\PurchasePayment\PurchasePaymentState.cs" />
+    <Compile Include="States\TicketsPayment\TicketsPaymentConfirmState.cs" />
+    <Compile Include="States\TicketsPayment\TicketsPaymentRequestDataState.cs" />
+    <Compile Include="States\TicketsPayment\TicketsPaymentState.cs" />
     <Compile Include="States\PaymentStartState.cs" />
     <Compile Include="TelegramBotService.cs" />
     <Compile Include="UserService.cs" />
@@ -108,6 +114,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

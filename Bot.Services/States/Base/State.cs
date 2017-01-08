@@ -5,6 +5,8 @@ using Bot.Services.States.Commands;
 using Bot.Services.States.InternetPayment;
 using Bot.Services.States.MobilePayment;
 using Bot.Services.States.MoneyTransfer;
+using Bot.Services.States.PurchasePayment;
+using Bot.Services.States.TicketsPayment;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -125,6 +127,18 @@ namespace Bot.Services.States.Base
                     return new MobilePaymentRequestDataState(botService, update);
                 case StatesTypes.MobilePaymentConfirm:
                     return new MobilePaymentConfirmState(botService, update);
+                case StatesTypes.TicketsPayment:
+                    return new TicketsPaymentState(botService, update);
+                case StatesTypes.TicketsPaymentRequestDate:
+                    return new TicketsPaymentRequestDataState(botService, update);
+                case StatesTypes.TicketsPaymentConfirm:
+                    return new TicketsPaymentConfirmState(botService, update);
+                case StatesTypes.PurchasePayment:
+                    return new PurchasePaymentState(botService, update);
+                case StatesTypes.PurchasePaymentRequestDate:
+                    return new PurchasePaymentRequestDataState(botService, update);
+                case StatesTypes.PurchasePaymentConfirm:
+                    return new PurchasePaymentConfirmState(botService, update);
                 default:
                     //return GetDefaultState(botService, update);
                     throw new NotSupportedException();
@@ -150,6 +164,12 @@ namespace Bot.Services.States.Base
         MobilePaymentProvider,
         MobilePayment,
         MobilePaymentRequestDate,
-        MobilePaymentConfirm
+        MobilePaymentConfirm,
+        TicketsPayment,
+        TicketsPaymentRequestDate,
+        TicketsPaymentConfirm,
+        PurchasePayment,
+        PurchasePaymentRequestDate,
+        PurchasePaymentConfirm,
     }
 }
