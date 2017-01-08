@@ -19,8 +19,7 @@ namespace Bot.Services.States.InternetPayment
                     },
                     new[]
                     {
-                        new InlineKeyboardButton("Adsl",((int)InternetProviders.Adsl).ToString()),
-                        new InlineKeyboardButton("AtlantTelecom",((int)InternetProviders.AtlantTelecom).ToString())
+                        new InlineKeyboardButton("Adsl",((int)InternetProviders.Adsl).ToString())
                     }
                 });
 

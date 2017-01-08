@@ -20,11 +20,11 @@ namespace Bot.Services.States
         private static Lazy<InlineKeyboardMarkup> keyboard = new Lazy<InlineKeyboardMarkup>(
             () => new InlineKeyboardMarkup(new[]
                {
-                    new[] // first row
-                    {
-                        new InlineKeyboardButton("Внести депозит", ((int)Payments.Deposit).ToString()),
+                    //new[] // first row
+                    //{
+                    //    new InlineKeyboardButton("Внести депозит", ((int)Payments.Deposit).ToString()),
 
-                    },
+                    //},
                     new[] // second row
                     {
                         new InlineKeyboardButton("Money Transfer",  ((int)Payments.MoneyTransfer).ToString()),

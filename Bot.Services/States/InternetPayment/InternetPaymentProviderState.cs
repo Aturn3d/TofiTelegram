@@ -29,8 +29,7 @@ namespace Bot.Services.States.InternetPayment
     {
         ByFly,
         CosmosTv,
-        Adsl,
-        AtlantTelecom
+        Adsl
     }
 
 }
