@@ -39,7 +39,7 @@ namespace Bot.Services.States.TicketsPayment
 
         public override async Task PrepareState()
         {
-            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Enter code of your ticket payment request");
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Enter code of your ticket payment request\nFor Test(length of code should be equal to 4)");
         }
 
         protected override async Task HandleError()

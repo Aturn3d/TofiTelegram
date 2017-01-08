@@ -47,7 +47,7 @@ namespace Bot.Services.States.MobilePayment
         public override async Task PrepareState()
         {
             await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId,
-                          "Enter your mobile number and amount of transfer money delemited by spase");
+                          "Enter your mobile number(e.g. +375291234567) and amount of transfer money delemited by spase");
         }
 
         private bool Parse(string text)

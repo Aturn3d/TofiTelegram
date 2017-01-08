@@ -15,6 +15,6 @@ namespace Bot.Services.States.PurchasePayment
             await TaskCompleted;
         }
 
-        internal override StatesTypes StateTypesId => StatesTypes.TicketsPayment;
+        internal override StatesTypes StateTypesId => StatesTypes.PurchasePayment;
     }
 }

@@ -9,13 +9,13 @@ namespace Bot.Services.States.Commands
 {
    internal class LastPaymentsCommand:ICommand
    {
-       private const string Format = "\nDetails:{0}\nDate:{1}\nState:{2}\n";
+       private const string Format = "\nDetails:{0}\nDate:{1}\nState:{2}\nAmount:{3}\n";
        public async Task Execute(TelegramBotService botService)
        {
            var payments = botService.User.Payments.OrderByDescending(d => d.Date).Take(10);
            var text = new StringBuilder();
            foreach (var p in payments) {
-               text.AppendFormat(Format, p.TransactionDescription, p.Date.Date.ToShortDateString(), p.Description);
+               text.AppendFormat(Format, p.TransactionDescription, p.Date.Date.ToShortDateString(), p.Description, p.Amount);
            }
            var mess = text.Length == 0 ? "No payments yet" : text.ToString();
            await botService.Bot.SendTextMessageAsync(botService.User.ChatId, mess);
