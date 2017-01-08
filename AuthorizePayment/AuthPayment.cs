@@ -37,7 +37,7 @@ namespace AuthorizePayment
             {
                 itemId = "1",
                 description = $"Operator: {phone.Operator}, number: {phone.Number}",
-                name = "Money transfer",
+                name = "Phone payment",
                 quantity = 1,
                 unitPrice = phone.Amount
             };
@@ -49,8 +49,8 @@ namespace AuthorizePayment
             var lineItem = new lineItemType
             {
                 itemId = "1",
-                description = $"Operator: {internet.Operator}, account: {internet.Account}",
-                name = "Money transfer",
+                description = $"Operator: {internet.Provider}, account: {internet.Account}",
+                name = "Phone payment",
                 quantity = 1,
                 unitPrice = internet.Amount
             };
