@@ -50,6 +50,7 @@ namespace Bot.Services
                     await Bot.SendChatActionAsync(User.ChatId, ChatAction.Typing);
                     _state = State.GetState((StatesTypes) User.ChatState, this, update);
                     await _state.HandleUpdate();
+                    await _state.PrepareState();
                 }
                 finally {
                     User.ChatState = (int) _state.StateTypesId;
@@ -59,10 +60,9 @@ namespace Bot.Services
             }
         }
 
-        internal async Task SetState(State state)
+        internal void SetState(State state)
         {
             _state = state;
-            await state.PrepareState();
         }
 
         private long GetChatId()

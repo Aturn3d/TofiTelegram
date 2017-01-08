@@ -3,11 +3,27 @@ using System.Threading.Tasks;
 using Bot.Model;
 using Bot.Services.States.Base;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Bot.Services.States.InternetPayment
 {
     internal class InternetPaymentState : State
     {
+
+        private InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        new InlineKeyboardButton("ByFly", ((int)InternetProviders.ByFly).ToString()),
+                        new InlineKeyboardButton("CosmosTv",((int)InternetProviders.CosmosTv).ToString())
+                    },
+                    new[]
+                    {
+                        new InlineKeyboardButton("Adsl",((int)InternetProviders.Adsl).ToString()),
+                        new InlineKeyboardButton("AtlantTelecom",((int)InternetProviders.AtlantTelecom).ToString())
+                    }
+                });
+
         public InternetPaymentState(TelegramBotService botService, Update update) : base(botService, update) {}
 
         protected override async Task Handle()
@@ -25,10 +41,7 @@ namespace Bot.Services.States.InternetPayment
                     {
                         To = provider
                     };
-                    await
-                        BotService.Bot.SendTextMessageAsync(BotService.User.ChatId,
-                            "Enter your the account number and amount of transfer money delemited by spase");
-                    await BotService.SetState(new InternetPaymentRequestDataState(BotService, Update));
+                    BotService.SetState(new InternetPaymentRequestDataState(BotService, Update));
                 }
                 else {
                     await HandleError();
@@ -37,6 +50,11 @@ namespace Bot.Services.States.InternetPayment
             else {
                 await HandleError();
             }
+        }
+
+        public override async Task PrepareState()
+        {
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Choose your Internet provider", replyMarkup: keyboard);
         }
 
         internal override StatesTypes StateTypesId => StatesTypes.InternetPayment;

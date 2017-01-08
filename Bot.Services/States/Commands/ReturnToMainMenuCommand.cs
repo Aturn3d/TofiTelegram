@@ -11,7 +11,8 @@ namespace Bot.Services.States.Commands
     {
         public async Task Execute(TelegramBotService botService)
         {
-            await botService.SetState(new InitialState(botService, null));
+            botService.SetState(new InitialState(botService, null));
+            await State.TaskCompleted;
         }
     }
 }

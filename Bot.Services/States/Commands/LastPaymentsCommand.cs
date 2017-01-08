@@ -19,7 +19,7 @@ namespace Bot.Services.States.Commands
            }
            var mess = text.Length == 0 ? "No payments yet" : text.ToString();
            await botService.Bot.SendTextMessageAsync(botService.User.ChatId, mess);
-           await botService.SetState(new InitialState(botService, null));
+           botService.SetState(new InitialState(botService, null));
        }
     }
 }

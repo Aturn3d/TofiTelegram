@@ -26,13 +26,19 @@ namespace Bot.Services.States.MoneyTransfer
                         To = _cardNum
                     };
                     BotService.User.CurrentPayment = pay;
-                    await BotService.SetState(new MoneyTransferConfirmState(BotService, Update));
+                    BotService.SetState(new MoneyTransferConfirmState(BotService, Update));
                 }
                 else {
                     await HandleError();
                 }
             }
         }
+
+        public override async Task PrepareState()
+        {
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Enter recipient's card number and amount of transfer money delemited by spase");
+        }
+
 
         private bool Validate(string text)
         {

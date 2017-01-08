@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Bot.Services.States.Base;
 using Bot.Services.States.InternetPayment;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Bot.Services.States.MobilePayment
 {
@@ -10,15 +11,26 @@ namespace Bot.Services.States.MobilePayment
     {
        public MobilePaymentConfirmState(TelegramBotService botService, Update update) : base(botService, update) {}
        internal override StatesTypes StateTypesId => StatesTypes.MobilePaymentConfirm;
-       protected override Task HandlePayment()
+       protected override async Task HandlePayment()
        {
-           throw new NotImplementedException();
-       }
+            var mess = Update.Message;
+            if (mess?.Text == null)
+                await HandleError();
+            else
+            {
+                var response = BotService.PaymentService.PhonePay(BotService.User);
+                await
+                    BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, response.Description,
+                        replyMarkup: new ReplyKeyboardHide());
+                AddPayment(response);
+                BotService.SetState(new InitialState(BotService, Update));
+            }
+        }
 
-       protected override string PaymentDetails { get; }
-       protected override async Task SetPreviousState()
+       protected override string PaymentDetails => $"Operator: {BotService.User.CurrentPayment.To}\nYour mobile number: {BotService.User.CurrentPayment.Account}";
+       protected override void SetPreviousState()
        {
-         await BotService.SetState(new InternetPaymentProviderState(BotService, Update));
+         BotService.SetState(new MobilePaymentProviderState(BotService, Update));
        }
     }
 }

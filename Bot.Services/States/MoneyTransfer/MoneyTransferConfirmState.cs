@@ -23,16 +23,16 @@ namespace Bot.Services.States.MoneyTransfer
                 var response = BotService.PaymentService.TransferMoney(BotService.User);
                 await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, response.Description, replyMarkup: new ReplyKeyboardHide());
                 AddPayment(response);
-                await BotService.SetState(new InitialState(BotService, Update));
+                BotService.SetState(new InitialState(BotService, Update));
             }
            
         }
 
         protected override string PaymentDetails => $"Recipient's card number:{BotService.User.CurrentPayment.To}";
 
-        protected override async Task SetPreviousState()
+        protected override void SetPreviousState()
         {
-            await AskForCreditCard(new MoneyTransferState(BotService, Update));
+            BotService.SetState(new MoneyTransferState(BotService, Update));
         }
     }
 }

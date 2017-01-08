@@ -58,9 +58,9 @@ namespace Bot.Services.States.Base
        {
            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Payment canceled!",
                replyMarkup: new ReplyKeyboardHide());
-           await SetPreviousState();
+           SetPreviousState();
        }
 
-       protected abstract Task SetPreviousState();
+       protected abstract void SetPreviousState();
    }
 }

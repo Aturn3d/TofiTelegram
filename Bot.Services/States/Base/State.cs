@@ -60,9 +60,10 @@ namespace Bot.Services.States.Base
         protected virtual async Task HandleError()
         {
             await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Your input is incorrect! No soup for you");
+
         }
 
-        protected async Task AskForCreditCard(State nextState)
+        protected async Task AskForCreditCard()
         {
             const string text = "Please, enter your credit card data in such format: card_number" + CardItemsDelimeter + "cvv_code" + CardItemsDelimeter + "expiration_date." +
                                 "For test purpose use this data: 4111111111111111"+ CardItemsDelimeter + "123" + CardItemsDelimeter + "1217";
@@ -75,7 +76,6 @@ namespace Bot.Services.States.Base
             else {
                 await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, text);
             }
-            await BotService.SetState(nextState);
         }
 
         private async Task<bool> HandleCommands()

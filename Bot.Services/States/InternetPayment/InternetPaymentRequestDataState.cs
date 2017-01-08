@@ -29,7 +29,7 @@ namespace Bot.Services.States.InternetPayment
                         pay.Account = _acountNumber;
                         pay.Amount = _amount;
                         BotService.User.CurrentPayment = pay;
-                        await BotService.SetState(new InternetPaymentConfirmState(BotService, Update));
+                        BotService.SetState(new InternetPaymentConfirmState(BotService, Update));
                     } else {
                         var errorMessage = "Your input is not valid. Correct issues below and continue\n" +
                              string.Join(Environment.NewLine, errors); ;
@@ -40,6 +40,12 @@ namespace Bot.Services.States.InternetPayment
                     await HandleError();
                 }
             }
+        }
+
+        public override async Task PrepareState()
+        {
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId,
+                           "Enter your the account number and amount of transfer money delemited by spase");
         }
 
         private bool Parse(string text)

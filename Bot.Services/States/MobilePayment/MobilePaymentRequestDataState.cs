@@ -29,12 +29,11 @@ namespace Bot.Services.States.MobilePayment
                             pay.Account = _phoneNumber;
                             pay.Amount = _amount;
                             BotService.User.CurrentPayment = pay;
-                            await BotService.SetState(new MobilePaymentConfirmState(BotService, Update));
+                            BotService.SetState(new MobilePaymentConfirmState(BotService, Update));
                         }
                         else {
                             var errorMessage = "Your input is not valid. Correct issues below and continue\n" +
                                                string.Join(Environment.NewLine, errors);
-                            ;
                             await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, errorMessage);
                         }
                     }
@@ -43,6 +42,12 @@ namespace Bot.Services.States.MobilePayment
                     }
                 }
             }
+        }
+
+        public override async Task PrepareState()
+        {
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId,
+                          "Enter your mobile number and amount of transfer money delemited by spase");
         }
 
         private bool Parse(string text)

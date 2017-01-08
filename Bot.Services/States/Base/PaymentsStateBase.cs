@@ -42,6 +42,12 @@ namespace Bot.Services.States.Base
             }
         }
 
+        public override async Task PrepareState()
+        {
+            await AskForCreditCard();
+        }
+
+
         private async Task HandleQuery(CallbackQuery query)
         {
             var useCard = int.Parse(query.Data) > 0;
@@ -50,7 +56,6 @@ namespace Bot.Services.States.Base
             }
             else {
                 BotService.User.CreditCard = null;
-                await AskForCreditCard(this);
             }
         }
 

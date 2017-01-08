@@ -5,13 +5,40 @@ using System.Text;
 using System.Threading.Tasks;
 using Bot.Services.States.Base;
 using Bot.Services.States.InternetPayment;
+using Bot.Services.States.MobilePayment;
 using Bot.Services.States.MoneyTransfer;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Bot.Services.States
 {
     internal class PaymentStartState:State
     {
+
+        private static Lazy<InlineKeyboardMarkup> keyboard = new Lazy<InlineKeyboardMarkup>(
+            () => new InlineKeyboardMarkup(new[]
+               {
+                    new[] // first row
+                    {
+                        new InlineKeyboardButton("Внести депозит", ((int)Payments.Deposit).ToString()),
+
+                    },
+                    new[] // second row
+                    {
+                        new InlineKeyboardButton("Money Transfer",  ((int)Payments.MoneyTransfer).ToString()),
+                      //  new InlineKeyboardButton("2.2")
+                    },
+                      new[]
+                    {
+                        new InlineKeyboardButton("Pay for internet",  ((int)Payments.InternetPayment).ToString()),
+
+                    },
+                      new[]
+                    {
+                        new InlineKeyboardButton("Pay for mobile",  ((int)Payments.MobilePayment).ToString()),
+
+                    }
+                }));
         public PaymentStartState(TelegramBotService botService, Update update) : base(botService, update) {}
         protected override async Task Handle()
         {
@@ -26,10 +53,13 @@ namespace Bot.Services.States
                     case Payments.Deposit:
                         break;
                     case Payments.MoneyTransfer:
-                        await AskForCreditCard(new MoneyTransferState(BotService, Update));
+                        BotService.SetState(new MoneyTransferState(BotService, Update));
                         break;
                     case Payments.InternetPayment:
-                        await AskForCreditCard(new InternetPaymentProviderState(BotService, Update));
+                        BotService.SetState(new InternetPaymentProviderState(BotService, Update));
+                        break;
+                    case Payments.MobilePayment:
+                        BotService.SetState(new MobilePaymentProviderState(BotService, Update));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -41,12 +71,19 @@ namespace Bot.Services.States
         }
 
         internal override StatesTypes StateTypesId => StatesTypes.PayStart;
+
+        public override async Task PrepareState()
+        {
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Choose payment",
+                replyMarkup: keyboard.Value);
+        }
     }
 
     enum Payments
     {
         Deposit,
         MoneyTransfer,
-        InternetPayment
+        InternetPayment,
+        MobilePayment
     }
 }

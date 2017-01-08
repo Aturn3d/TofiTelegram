@@ -4,11 +4,24 @@ using Bot.Model;
 using Bot.Services.States.Base;
 using Bot.Services.States.InternetPayment;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Bot.Services.States.MobilePayment
 {
     internal class MobilePaymentState : State
     {
+        private InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new[]
+              {
+                    new[]
+                    {
+                        new InlineKeyboardButton("MTS", ((int) InternetProviders.ByFly).ToString()),
+                        new InlineKeyboardButton("Life", ((int) InternetProviders.CosmosTv).ToString()),
+                        new InlineKeyboardButton("Velcome", ((int) InternetProviders.CosmosTv).ToString())
+                    }
+                });
+
+
+
         public MobilePaymentState(TelegramBotService botService, Update update) : base(botService, update) {}
 
         protected override async Task Handle()
@@ -26,7 +39,7 @@ namespace Bot.Services.States.MobilePayment
                     {
                         To = provider
                     };
-                    await BotService.SetState(new MobilePaymentRequestDataState(BotService, Update));
+                    BotService.SetState(new MobilePaymentRequestDataState(BotService, Update));
                 }
                 else {
                     await HandleError();
@@ -35,6 +48,11 @@ namespace Bot.Services.States.MobilePayment
             else {
                 await HandleError();
             }
+        }
+
+        public override async Task PrepareState()
+        {
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Choose your mobile operator", replyMarkup: keyboard);
         }
 
         internal override StatesTypes StateTypesId => StatesTypes.MobilePayment;

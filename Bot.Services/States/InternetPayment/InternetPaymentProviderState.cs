@@ -12,19 +12,6 @@ namespace Bot.Services.States.InternetPayment
 {
     internal class InternetPaymentProviderState: PaymentsStateBase
     {
-        private InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new[]
-                {
-                    new[] 
-                    {
-                        new InlineKeyboardButton("ByFly", ((int)InternetProviders.ByFly).ToString()),
-                        new InlineKeyboardButton("CosmosTv",((int)InternetProviders.CosmosTv).ToString())
-                    },
-                    new[] 
-                    {
-                        new InlineKeyboardButton("Adsl",((int)InternetProviders.Adsl).ToString()),
-                        new InlineKeyboardButton("AtlantTelecom",((int)InternetProviders.AtlantTelecom).ToString())
-                    }
-                });
 
 
 
@@ -33,8 +20,8 @@ namespace Bot.Services.States.InternetPayment
 
         protected override async Task HandlePayment()
         {
-            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Choose your Internet provider", replyMarkup: keyboard);
-            await BotService.SetState(new InternetPaymentState(BotService, Update));
+            BotService.SetState(new InternetPaymentState(BotService, Update));
+            await TaskCompleted;
         }
     }
 

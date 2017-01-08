@@ -26,7 +26,8 @@ To Decline transaction use Cvv code 111";
 
         protected override async Task Handle()
         {
-          await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, commandsList, replyMarkup: new ReplyKeyboardHide());
+            await TaskCompleted;
+            // await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, commandsList, replyMarkup: new ReplyKeyboardHide());
         }
 
         public override async Task PrepareState()
