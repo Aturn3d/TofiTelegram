@@ -53,7 +53,7 @@ namespace Bot.Services.States.InternetPayment
 
         public override async Task PrepareState()
         {
-            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Choose your Internet provider", replyMarkup: keyboard);
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Choose your Internet provider\nfor test(All providers account must have only numbers,BuFly must have 13 numerals, CosmosTv-7, Adsl - 10)", replyMarkup: keyboard);
         }
 
         internal override StatesTypes StateTypesId => StatesTypes.InternetPayment;
