@@ -22,6 +22,11 @@ namespace Bot.Services.States.Commands
                     {
                         new InlineKeyboardButton("Money Transfer",  ((int)Payments.MoneyTransfer).ToString()),
                       //  new InlineKeyboardButton("2.2")
+                    },
+                      new[] 
+                    {
+                        new InlineKeyboardButton("Pay for internet",  ((int)Payments.InternetPayment).ToString()),
+                     
                     }
                 }));
 

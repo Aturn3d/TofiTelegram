@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Bot.Model;
 using Bot.Services.States.Commands;
+using Bot.Services.States.InternetPayment;
 using Bot.Services.States.MoneyTransfer;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -107,8 +108,13 @@ namespace Bot.Services.States.Base
                     return new MoneyTransferRequestDataState(botService, update);
                 case StatesTypes.MoneyTransferConfirm:
                     return new MoneyTransferConfirmState(botService, update);
+                case StatesTypes.InternetPaymentProvider:
+                    return new InternetPaymentProviderState(botService, update);
+                case StatesTypes.InternetPayment:
+                    return new InternetPaymentState(botService, update);
                 default:
-                    return GetDefaultState(botService, update);
+                    //return GetDefaultState(botService, update);
+                    throw new NotSupportedException();
             }
         }
 
@@ -123,6 +129,8 @@ namespace Bot.Services.States.Base
         PayStart,
         MoneyTransfer,
         MoneyTransferRequestDate,
-        MoneyTransferConfirm
+        MoneyTransferConfirm,
+        InternetPaymentProvider,
+        InternetPayment
     }
 }

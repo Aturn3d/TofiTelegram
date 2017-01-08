@@ -71,6 +71,9 @@
     <Compile Include="States\ExchangeState.cs" />
     <Compile Include="States\InitialState.cs" />
     <Compile Include="States\Base\State.cs" />
+    <Compile Include="States\InternetPayment\InternetPaymentProviderState.cs" />
+    <Compile Include="States\InternetPayment\InternetPaymentRequestDataState.cs" />
+    <Compile Include="States\InternetPayment\InternetPaymentState.cs" />
     <Compile Include="States\MoneyTransfer\MoneyTransferConfirmState.cs" />
     <Compile Include="States\MoneyTransfer\MoneyTransferRequestDataState.cs" />
     <Compile Include="States\MoneyTransfer\MoneyTransferState.cs" />

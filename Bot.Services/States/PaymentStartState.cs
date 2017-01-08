@@ -27,6 +27,9 @@ namespace Bot.Services.States
                     case Payments.MoneyTransfer:
                         await AskForCreditCard(new MoneyTransferState(BotService, Update));
                         break;
+                    case Payments.InternetPayment:
+                        await AskForCreditCard(new MoneyTransferState(BotService, Update));
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -42,6 +45,7 @@ namespace Bot.Services.States
     enum Payments
     {
         Deposit,
-        MoneyTransfer
+        MoneyTransfer,
+        InternetPayment
     }
 }
