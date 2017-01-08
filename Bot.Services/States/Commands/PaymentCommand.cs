@@ -34,7 +34,7 @@ namespace Bot.Services.States.Commands
         {
             await botService.Bot.SendTextMessageAsync(botService.User.ChatId, "Choose payment",
                 replyMarkup: keyboard.Value);
-            botService.SetState(new PaymentStartState(botService, null));
+            await botService.SetState(new PaymentStartState(botService, null));
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Bot.Model;
+using Bot.Model.ModelsForPayment;
+using Bot.Services.Common;
 using Bot.Services.States.Base;
 using Telegram.Bot.Types;
 
@@ -18,14 +22,19 @@ namespace Bot.Services.States.InternetPayment
             }
             else {
                 if (Parse(mess.Text)) {
-                    //  var inter = new Internet()
-                    //var pay = new CurrentPaymentInfo
-                    //{
-                    //    Amount = _amount,
-                    //    To = _cardNum
-                    //};
-                    //BotService.User.CurrentPayment = pay;
-                    //BotService.SetState(new MoneyTransferConfirmState(BotService, Update));
+                    var inter = new Internet(BotService.User.CurrentPayment.To, _acountNumber, _amount);
+                    var errors = Validators.ValidateInternet(inter);
+                    if (errors.Count == 0) {
+                        var pay = BotService.User.CurrentPayment;
+                        pay.Account = _acountNumber;
+                        pay.Amount = _amount;
+                        BotService.User.CurrentPayment = pay;
+                        await BotService.SetState(new InternetPaymentConfirmState(BotService, Update));
+                    } else {
+                        var errorMessage = "Your input is not valid. Correct issues below and continue\n" +
+                             string.Join(Environment.NewLine, errors); ;
+                        await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, errorMessage);
+                    }
                 }
                 else {
                     await HandleError();

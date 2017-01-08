@@ -13,6 +13,7 @@ namespace Bot.Services
     {
         Payment TransferMoney(User user);
         Payment PhonePay(User user);
+        Payment InternetPay(User user);
     }
     public class PaymentService: IPaymentService
     {

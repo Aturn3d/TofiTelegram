@@ -6,10 +6,10 @@ using Telegram.Bot.Types;
 
 namespace Bot.Services.States.MobilePayment
 {
-   internal class MobilePaymentsConfirmState : ConfirmStateBase
+   internal class MobilePaymentConfirmState : ConfirmStateBase
     {
-       public MobilePaymentsConfirmState(TelegramBotService botService, Update update) : base(botService, update) {}
-       internal override StatesTypes StateTypesId { get; }
+       public MobilePaymentConfirmState(TelegramBotService botService, Update update) : base(botService, update) {}
+       internal override StatesTypes StateTypesId => StatesTypes.MobilePaymentConfirm;
        protected override Task HandlePayment()
        {
            throw new NotImplementedException();

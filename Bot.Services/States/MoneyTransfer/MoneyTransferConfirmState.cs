@@ -32,7 +32,7 @@ namespace Bot.Services.States.MoneyTransfer
 
         protected override async Task SetPreviousState()
         {
-            await BotService.SetState(new MoneyTransferState(BotService, Update));
+            await AskForCreditCard(new MoneyTransferState(BotService, Update));
         }
     }
 }

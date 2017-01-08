@@ -73,11 +73,11 @@
     <Compile Include="States\Base\State.cs" />
     <Compile Include="States\InternetPayment\InternetPaymentProviderState.cs" />
     <Compile Include="States\InternetPayment\InternetPaymentRequestDataState.cs" />
-    <Compile Include="States\InternetPayment\InternetPaymentsConfirmState.cs" />
+    <Compile Include="States\InternetPayment\InternetPaymentConfirmState.cs" />
     <Compile Include="States\InternetPayment\InternetPaymentState.cs" />
     <Compile Include="States\MobilePayment\MobilePaymentProviderState.cs" />
     <Compile Include="States\MobilePayment\MobilePaymentRequestDataState.cs" />
-    <Compile Include="States\MobilePayment\MobilePaymentsConfirmState.cs" />
+    <Compile Include="States\MobilePayment\MobilePaymentConfirmState.cs" />
     <Compile Include="States\MobilePayment\MobilePaymentState.cs" />
     <Compile Include="States\MoneyTransfer\MoneyTransferConfirmState.cs" />
     <Compile Include="States\MoneyTransfer\MoneyTransferRequestDataState.cs" />

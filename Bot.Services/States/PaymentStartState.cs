@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bot.Services.States.Base;
+using Bot.Services.States.InternetPayment;
 using Bot.Services.States.MoneyTransfer;
 using Telegram.Bot.Types;
 
@@ -28,7 +29,7 @@ namespace Bot.Services.States
                         await AskForCreditCard(new MoneyTransferState(BotService, Update));
                         break;
                     case Payments.InternetPayment:
-                        await AskForCreditCard(new MoneyTransferState(BotService, Update));
+                        await AskForCreditCard(new InternetPaymentProviderState(BotService, Update));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

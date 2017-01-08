@@ -14,7 +14,7 @@ namespace Bot.Services.States.MoneyTransfer
 
         protected override async Task HandlePayment()
         {
-            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Enter recipient's card number and amoou of transfer money delemited by spase");
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Enter recipient's card number and amount of transfer money delemited by spase");
             await BotService.SetState(new MoneyTransferRequestDataState(BotService, Update));
         }
 

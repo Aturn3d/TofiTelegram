@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bot.Model;
 using Bot.Services.Common;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Bot.Services.States.Base
 {
@@ -28,7 +29,7 @@ namespace Bot.Services.States.Base
                 if (card == null) {
                     var errorMessage = "You input is incorrect. Please correct errors below and try again" + Environment.NewLine +
                                        string.Join(Environment.NewLine, _errors);
-                    await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, errorMessage);
+                    await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, errorMessage, replyMarkup: new ReplyKeyboardHide());
                 }
                 else {
                     BotService.User.CreditCard = card;

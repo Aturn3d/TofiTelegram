@@ -49,7 +49,7 @@ namespace AuthorizePayment
             var lineItem = new lineItemType
             {
                 itemId = "1",
-                description = $"Operator: {internet.Operator}, account: {internet.Account}",
+                description = $"Operator: {internet.Provider}, account: {internet.Account}",
                 name = "Money transfer",
                 quantity = 1,
                 unitPrice = internet.Amount

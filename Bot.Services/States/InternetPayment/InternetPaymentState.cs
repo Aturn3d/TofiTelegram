@@ -25,6 +25,9 @@ namespace Bot.Services.States.InternetPayment
                     {
                         To = provider
                     };
+                    await
+                        BotService.Bot.SendTextMessageAsync(BotService.User.ChatId,
+                            "Enter your the account number and amount of transfer money delemited by spase");
                     await BotService.SetState(new InternetPaymentRequestDataState(BotService, Update));
                 }
                 else {

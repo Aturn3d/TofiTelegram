@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Bot.Model.ModelsForPayment;
+using Bot.Services.Common;
 using Bot.Services.States.Base;
 using Telegram.Bot.Types;
 
@@ -6,7 +9,7 @@ namespace Bot.Services.States.MobilePayment
 {
     internal class MobilePaymentRequestDataState : State
     {
-        private string _acountNumber;
+        private string _phoneNumber;
         private decimal _amount;
         public MobilePaymentRequestDataState(TelegramBotService botService, Update update) : base(botService, update) {}
 
@@ -18,17 +21,26 @@ namespace Bot.Services.States.MobilePayment
             }
             else {
                 if (Parse(mess.Text)) {
-                    //  var inter = new Internet()
-                    //var pay = new CurrentPaymentInfo
-                    //{
-                    //    Amount = _amount,
-                    //    To = _cardNum
-                    //};
-                    //BotService.User.CurrentPayment = pay;
-                    //BotService.SetState(new MoneyTransferConfirmState(BotService, Update));
-                }
-                else {
-                    await HandleError();
+                    if (Parse(mess.Text)) {
+                        var phone = new Phone(BotService.User.CurrentPayment.To, _phoneNumber, _amount);
+                        var errors = Validators.ValidatePhone(phone);
+                        if (errors.Count == 0) {
+                            var pay = BotService.User.CurrentPayment;
+                            pay.Account = _phoneNumber;
+                            pay.Amount = _amount;
+                            BotService.User.CurrentPayment = pay;
+                            await BotService.SetState(new MobilePaymentConfirmState(BotService, Update));
+                        }
+                        else {
+                            var errorMessage = "Your input is not valid. Correct issues below and continue\n" +
+                                               string.Join(Environment.NewLine, errors);
+                            ;
+                            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, errorMessage);
+                        }
+                    }
+                    else {
+                        await HandleError();
+                    }
                 }
             }
         }
@@ -39,12 +51,12 @@ namespace Bot.Services.States.MobilePayment
             var bo = splited.Length == 2 &&
                      decimal.TryParse(splited[1], out _amount);
             if (bo) {
-                _acountNumber = splited[0];
+                _phoneNumber = splited[0];
             }
             return bo;
         }
 
 
-        internal override StatesTypes StateTypesId => StatesTypes.InternetPaymentRequestDate;
+        internal override StatesTypes StateTypesId => StatesTypes.MobilePaymentRequestDate;
     }
 }

@@ -20,8 +20,8 @@ namespace Bot.Services.States.MobilePayment
                     await HandleError();
                     return;
                 }
-                if (Enum.IsDefined(typeof (InternetPayment.InternetProviders), p)) {
-                    var provider = ((InternetPayment.InternetProviders) p).ToString();
+                if (Enum.IsDefined(typeof (MobileProviders), p)) {
+                    var provider = ((MobileProviders) p).ToString();
                     BotService.User.CurrentPayment = new CurrentPaymentInfo
                     {
                         To = provider
@@ -37,6 +37,6 @@ namespace Bot.Services.States.MobilePayment
             }
         }
 
-        internal override StatesTypes StateTypesId => StatesTypes.InternetPayment;
+        internal override StatesTypes StateTypesId => StatesTypes.MobilePayment;
     }
 }

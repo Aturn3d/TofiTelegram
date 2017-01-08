@@ -12,34 +12,29 @@ namespace Bot.Services.States.MobilePayment
                 {
                     new[] 
                     {
-                        new InlineKeyboardButton("ByFly", ((int)InternetProviders.ByFly).ToString()),
-                        new InlineKeyboardButton("CosmosTv",((int)InternetProviders.CosmosTv).ToString())
-                    },
-                    new[] 
-                    {
-                        new InlineKeyboardButton("Adsl",((int)InternetProviders.Adsl).ToString()),
-                        new InlineKeyboardButton("AtlantTelecom",((int)InternetProviders.AtlantTelecom).ToString())
+                        new InlineKeyboardButton("MTS", ((int) InternetProviders.ByFly).ToString()),
+                        new InlineKeyboardButton("Life", ((int) InternetProviders.CosmosTv).ToString()),
+                        new InlineKeyboardButton("Velcome", ((int) InternetProviders.CosmosTv).ToString())
                     }
                 });
 
 
 
         public MobilePaymentProviderState(TelegramBotService botService, Update update) : base(botService, update) {}
-        internal override StatesTypes StateTypesId => StatesTypes.InternetPaymentProvider;
+        internal override StatesTypes StateTypesId => StatesTypes.MobilePaymentProvider;
 
         protected override async Task HandlePayment()
         {
-            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Choose your Internet provider", replyMarkup: keyboard);
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Choose your mobile operator", replyMarkup: keyboard);
             await BotService.SetState(new MobilePaymentState(BotService, Update));
         }
     }
 
-    enum InternetProviders
+    enum MobileProviders
     {
-        ByFly,
-        CosmosTv,
-        Adsl,
-        AtlantTelecom
+      Mts,
+      Velcome,
+      Life
     }
 
 }

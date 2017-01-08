@@ -35,7 +35,7 @@ namespace Bot.Services.States.Base
                     await HandlePayment();
                     break;
                 case Cancel:
-                    await SetPreviousState();
+                    await CancelPayment();
                     break;
                 default:
                     await HandleError();
@@ -53,6 +53,14 @@ namespace Bot.Services.States.Base
 
        protected abstract Task HandlePayment();
        protected abstract string PaymentDetails { get; }
+
+       protected async Task CancelPayment()
+       {
+           await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Payment canceled!",
+               replyMarkup: new ReplyKeyboardHide());
+           await SetPreviousState();
+       }
+
        protected abstract Task SetPreviousState();
-    }
+   }
 }
