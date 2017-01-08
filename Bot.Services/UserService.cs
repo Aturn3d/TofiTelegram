@@ -16,6 +16,7 @@ namespace Bot.Services
         bool CreateUser(User user);
         IEnumerable<User> Search(string search);
         void CreateOrUpdateUser(User user);
+        void DeleteCurrentPayment(int userId);
     }
 
 
@@ -23,11 +24,13 @@ namespace Bot.Services
     {
         private IUnitOfWork uof;
         private IUserRepository userRepository;
+        private ICurrentPaymentInfoRepository currentPaymentInfoRepository;
 
-        public UserService(IUnitOfWork uof, IUserRepository userRepository)
+        public UserService(IUnitOfWork uof, IUserRepository userRepository, ICurrentPaymentInfoRepository currentPaymentInfoRepository)
         {
             this.uof = uof;
             this.userRepository = userRepository;
+            this.currentPaymentInfoRepository = currentPaymentInfoRepository;
         }
 
         public User GetUser(int id)
@@ -84,6 +87,14 @@ namespace Bot.Services
             }
             else {
                 Update(user);
+            }
+        }
+
+        public void DeleteCurrentPayment(int userId)
+        {
+            var user = GetUser(userId);
+            if (user?.CurrentPayment != null) {
+                currentPaymentInfoRepository.Delete(user.CurrentPayment);
             }
         }
 

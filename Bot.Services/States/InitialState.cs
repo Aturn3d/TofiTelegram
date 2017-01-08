@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Bot.Services.States.Base
 {
@@ -25,12 +26,12 @@ To Decline transaction use Cvv code 111";
 
         protected override async Task Handle()
         {
-          await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, commandsList);
+          await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, commandsList, replyMarkup: new ReplyKeyboardHide());
         }
 
         public override async Task PrepareState()
         {
-            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, commandsList);
+            await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, commandsList, replyMarkup: new ReplyKeyboardHide());
         }
 
         internal override StatesTypes StateTypesId => StatesTypes.InitialState;

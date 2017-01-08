@@ -18,7 +18,7 @@ namespace Bot.Services
 
     public class TelegramBotService : ITelegramBotService
     {
-        private readonly IUserService userService;
+        
        
         private State _state;
         private Update _update;
@@ -26,11 +26,12 @@ namespace Bot.Services
         internal User User { get; private set; }
         internal ITelegramBotClient Bot { get; }
         internal IPaymentService PaymentService { get; }
+        internal readonly IUserService UserService;
 
         public TelegramBotService(IUserService userService, IBotFactory botFactory, IPaymentService paymentService)
         {
-            this.userService = userService;
-            this.PaymentService = paymentService;
+            UserService = userService;
+            PaymentService = paymentService;
             Bot = botFactory.GetTelegramBot();
         }
 
@@ -52,7 +53,7 @@ namespace Bot.Services
                 }
                 finally {
                     User.ChatState = (int) _state.StateTypesId;
-                    userService.CreateOrUpdateUser(User);
+                    UserService.CreateOrUpdateUser(User);
                     cachedUser.IsProcessing = false;
                 }
             }
@@ -94,7 +95,7 @@ namespace Bot.Services
 
         private User GetUser(int userId)
         {
-            return userService.GetByTelegramUserId(userId) ?? new User
+            return UserService.GetByTelegramUserId(userId) ?? new User
             {
                 ChatId = GetChatId(),
                 UserId = userId,

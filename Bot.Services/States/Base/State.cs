@@ -103,8 +103,10 @@ namespace Bot.Services.States.Base
                     return new PaymentStartState(botService, update);
                 case StatesTypes.MoneyTransfer:
                     return new MoneyTransferState(botService, update);
-                case StatesTypes.MoneyTransferEnd:
-                    return new MoneyTransferEndState(botService, update);
+                case StatesTypes.MoneyTransferRequestDate:
+                    return new MoneyTransferRequestDataState(botService, update);
+                case StatesTypes.MoneyTransferConfirm:
+                    return new MoneyTransferConfirmState(botService, update);
                 default:
                     return GetDefaultState(botService, update);
             }
@@ -120,6 +122,7 @@ namespace Bot.Services.States.Base
         Exchange,
         PayStart,
         MoneyTransfer,
-        MoneyTransferEnd
+        MoneyTransferRequestDate,
+        MoneyTransferConfirm
     }
 }

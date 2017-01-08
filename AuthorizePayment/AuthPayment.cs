@@ -89,7 +89,7 @@ namespace AuthorizePayment
             // get the response from the service (errors contained if any)
             var response = controller.GetApiResponse();
 
-            //TODO: Заполнять объект PaymentResponse
+            
             //validate
             var resp = new Payment();
             if (response != null) {

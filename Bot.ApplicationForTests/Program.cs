@@ -47,7 +47,7 @@ namespace Bot.ApplicationForTests
 
             Console.WriteLine(me.Username);
             Bot.StartReceiving();
-
+            Console.ReadLine();
             Bot.StopReceiving();
         }
 

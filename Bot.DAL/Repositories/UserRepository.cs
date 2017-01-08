@@ -15,6 +15,7 @@ namespace Bot.DAL.Repositories
         {
                return dbSet.Where(where)
               .Include(u => u.CreditCard)
+              .Include(u=> u.CurrentPayment)
               .Include(u => u.Payments)
               .FirstOrDefault();
         }

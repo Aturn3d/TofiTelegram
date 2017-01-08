@@ -17,6 +17,7 @@ namespace Bot.Model
         public string MobilePhone { get; set; }
 
         public CreditCard CreditCard { get; set; }
+        public CurrentPaymentInfo CurrentPayment { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
     }
 }

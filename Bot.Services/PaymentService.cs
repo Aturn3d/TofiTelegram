@@ -11,16 +11,16 @@ namespace Bot.Services
 {
     public interface IPaymentService
     {
-        Payment TransferMoney(User user, string cardNumberTo, decimal amount);
+        Payment TransferMoney(User user);
     }
     public class PaymentService: IPaymentService
     {
         //TODO: Use DI?
         static AuthPayment pay = new AuthPayment();
-        public Payment TransferMoney(User user, string cardNumberTo, decimal amount)
+        public Payment TransferMoney(User user)
         {
-            var card = new Card(cardNumberTo);
-            return AuthPayment.TransferMoney(user, card, amount);
+            var card = new Card(user.CurrentPayment.To);
+            return AuthPayment.TransferMoney(user, card, user.CurrentPayment.Amount);
         }
     }
 }

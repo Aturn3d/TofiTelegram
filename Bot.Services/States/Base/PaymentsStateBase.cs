@@ -32,6 +32,7 @@ namespace Bot.Services.States.Base
                 }
                 else {
                     BotService.User.CreditCard = card;
+                    BotService.UserService.DeleteCurrentPayment(BotService.User.Id);
                     await HandlePayment();
                 }
             }

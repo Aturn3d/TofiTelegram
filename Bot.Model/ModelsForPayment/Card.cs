@@ -12,6 +12,6 @@ namespace Bot.Model.ModelsForPayment
         {
             Number = number;
         }
-        public string Number { get;  }
+        public string Number { get;}
     }
 }
