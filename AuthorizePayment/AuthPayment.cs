@@ -50,12 +50,42 @@ namespace AuthorizePayment
             {
                 itemId = "1",
                 description = $"Operator: {internet.Provider}, account: {internet.Account}",
-                name = "Phone payment",
+                name = "Phone  payment",
                 quantity = 1,
                 unitPrice = internet.Amount
             };
             return AutorizeAndCaptureFund(user, internet.Amount, lineItem);
         }
+
+        public static Payment TicketPay(User user, Ticket ticket)
+        {
+            var lineItem = new lineItemType
+            {
+                itemId = "1",
+                description = ticket.ToString(),
+                name = "Phone  payment",
+                quantity = 1,
+                unitPrice = ticket.Amount
+            };
+
+            return AutorizeAndCaptureFund(user, ticket.Amount, lineItem);
+        }
+
+
+        public static Payment MakePurchase(User user, Purchase purchase)
+        {
+            var lineItem = new lineItemType
+            {
+                itemId = "1",
+                description = purchase.ToString(),
+                name = "Purchase",
+                quantity = purchase.Count,
+                unitPrice = purchase.Amount
+            };
+
+            return AutorizeAndCaptureFund(user, purchase.Amount, lineItem);
+        }
+
 
         #region Private Methods
 

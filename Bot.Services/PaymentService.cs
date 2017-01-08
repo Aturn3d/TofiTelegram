@@ -36,5 +36,17 @@ namespace Bot.Services
             var internet = new Internet(user.CurrentPayment.To, user.CurrentPayment.Account, user.CurrentPayment.Amount);
             return AuthPayment.InternetPay(user, internet);
         }
+
+        public Payment TicketPay(User user)
+        {
+            var ticket = Ticket.GetTicket(user.CurrentPayment.Account);
+            return AuthPayment.TicketPay(user, ticket);
+        }  
+
+        public Payment MakePurchase(User user)
+        {
+            var purchase = Purchase.GetPurchase(user.CurrentPayment.Account);
+            return AuthPayment.MakePurchase(user, purchase);
+        }
     }
 }

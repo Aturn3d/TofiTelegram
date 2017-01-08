@@ -45,8 +45,10 @@
     <Compile Include="ModelsForPayment\Card.cs" />
     <Compile Include="ModelsForPayment\Internet.cs" />
     <Compile Include="ModelsForPayment\Phone.cs" />
+    <Compile Include="ModelsForPayment\Purchase.cs" />
     <Compile Include="Payment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ModelsForPayment\Ticket.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
