@@ -26,7 +26,7 @@ namespace Bot.Services.States.MoneyTransfer
                         To = _cardNum
                     };
                     BotService.User.CurrentPayment = pay;
-                    BotService.SetState(new MoneyTransferConfirmState(BotService, Update));
+                    await BotService.SetState(new MoneyTransferConfirmState(BotService, Update));
                 }
                 else {
                     await HandleError();

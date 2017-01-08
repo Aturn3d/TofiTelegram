@@ -74,7 +74,7 @@ namespace Bot.Services.States.Base
             else {
                 await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, text);
             }
-            BotService.SetState(nextState);
+            await BotService.SetState(nextState);
         }
 
         private async Task<bool> HandleCommands()
@@ -112,6 +112,8 @@ namespace Bot.Services.States.Base
                     return new InternetPaymentProviderState(botService, update);
                 case StatesTypes.InternetPayment:
                     return new InternetPaymentState(botService, update);
+                case StatesTypes.InternetPaymentRequestDate:
+                    return new InternetPaymentRequestDataState(botService, update);
                 default:
                     //return GetDefaultState(botService, update);
                     throw new NotSupportedException();
@@ -131,6 +133,8 @@ namespace Bot.Services.States.Base
         MoneyTransferRequestDate,
         MoneyTransferConfirm,
         InternetPaymentProvider,
-        InternetPayment
+        InternetPayment,
+        InternetPaymentRequestDate,
+        InternetPaymentConfirm
     }
 }

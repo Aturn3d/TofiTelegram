@@ -14,7 +14,7 @@ namespace Bot.Services.States.Commands
             await
                 botService.Bot.SendTextMessageAsync(botService.User.ChatId,
                     text);
-            botService.SetState(new ExchangeState(botService, null));
+            await botService.SetState(new ExchangeState(botService, null));
         }
     }
 }

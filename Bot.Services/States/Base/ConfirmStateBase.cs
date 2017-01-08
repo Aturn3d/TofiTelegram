@@ -35,7 +35,7 @@ namespace Bot.Services.States.Base
                     await HandlePayment();
                     break;
                 case Cancel:
-                    SetPreviousState();
+                    await SetPreviousState();
                     break;
                 default:
                     await HandleError();
@@ -53,6 +53,6 @@ namespace Bot.Services.States.Base
 
        protected abstract Task HandlePayment();
        protected abstract string PaymentDetails { get; }
-       protected abstract void SetPreviousState();
+       protected abstract Task SetPreviousState();
     }
 }

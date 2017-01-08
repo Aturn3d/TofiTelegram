@@ -59,10 +59,10 @@ namespace Bot.Services
             }
         }
 
-        internal void SetState(State state)
+        internal async Task SetState(State state)
         {
             _state = state;
-            state.PrepareState();
+            await state.PrepareState();
         }
 
         private long GetChatId()

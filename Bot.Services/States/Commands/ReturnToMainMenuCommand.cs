@@ -9,10 +9,9 @@ namespace Bot.Services.States.Commands
 {
     internal class ReturnToMainMenuCommand:ICommand
     {
-        public Task Execute(TelegramBotService botService)
+        public async Task Execute(TelegramBotService botService)
         {
-            botService.SetState(new InitialState(botService, null));
-            return State.TaskCompleted;
+            await botService.SetState(new InitialState(botService, null));
         }
     }
 }

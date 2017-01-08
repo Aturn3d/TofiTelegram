@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Bot.Services.States.Base;
-using Bot.Services.States.MoneyTransfer;
+using Bot.Services.States.InternetPayment;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace Bot.Services.States.InternetPayment
+namespace Bot.Services.States.MobilePayment
 {
-    internal class InternetPaymentProviderState: PaymentsStateBase
+    internal class MobilePaymentProviderState: PaymentsStateBase
     {
         private InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new[]
                 {
@@ -28,13 +24,13 @@ namespace Bot.Services.States.InternetPayment
 
 
 
-        public InternetPaymentProviderState(TelegramBotService botService, Update update) : base(botService, update) {}
+        public MobilePaymentProviderState(TelegramBotService botService, Update update) : base(botService, update) {}
         internal override StatesTypes StateTypesId => StatesTypes.InternetPaymentProvider;
 
         protected override async Task HandlePayment()
         {
             await BotService.Bot.SendTextMessageAsync(BotService.User.ChatId, "Choose your Internet provider", replyMarkup: keyboard);
-            await BotService.SetState(new InternetPaymentState(BotService, Update));
+            await BotService.SetState(new MobilePaymentState(BotService, Update));
         }
     }
 

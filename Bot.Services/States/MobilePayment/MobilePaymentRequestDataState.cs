@@ -2,13 +2,13 @@
 using Bot.Services.States.Base;
 using Telegram.Bot.Types;
 
-namespace Bot.Services.States.InternetPayment
+namespace Bot.Services.States.MobilePayment
 {
-    internal class InternetPaymentRequestDataState : State
+    internal class MobilePaymentRequestDataState : State
     {
         private string _acountNumber;
         private decimal _amount;
-        public InternetPaymentRequestDataState(TelegramBotService botService, Update update) : base(botService, update) {}
+        public MobilePaymentRequestDataState(TelegramBotService botService, Update update) : base(botService, update) {}
 
         protected override async Task Handle()
         {
