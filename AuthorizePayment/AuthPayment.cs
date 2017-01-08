@@ -50,7 +50,7 @@ namespace AuthorizePayment
             {
                 itemId = "1",
                 description = $"Operator: {internet.Provider}, account: {internet.Account}",
-                name = "Phone  payment",
+                name = "Internet  payment",
                 quantity = 1,
                 unitPrice = internet.Amount
             };
