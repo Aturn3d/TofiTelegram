@@ -33,7 +33,7 @@ namespace Bot.Model.ModelsForPayment
 
         public override string ToString()
         {
-            return $"Purchase name :{Name}";
+            return $"Purchase name : {Name};\nUnit price : {Amount.ToString()}$;\nPurchase count: {Count.ToString()};";
         }
     }
 }

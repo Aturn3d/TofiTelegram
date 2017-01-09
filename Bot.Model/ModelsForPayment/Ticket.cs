@@ -36,7 +36,7 @@ namespace Bot.Model.ModelsForPayment
 
         public override string ToString()
         {
-            return $"Place from :{PlaceFrom}\n Place to:{PlaceTo} \n Departure date {DepartureDate.ToString("dd/MM/yyyy HH:mm")}";
+            return $"Place from :{PlaceFrom};\nPlace to:{PlaceTo};\nDeparture date: {DepartureDate.ToString("dd/MM/yyyy HH:mm")};\nPrice: {Amount};";
         }
     }
 }

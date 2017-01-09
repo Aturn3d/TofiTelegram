@@ -62,7 +62,7 @@ namespace AuthorizePayment
             var lineItem = new lineItemType
             {
                 itemId = "1",
-                description = ticket.ToString(),
+                description = $"Place from :{ticket.PlaceFrom};\nPlace to:{ticket.PlaceTo};\nDeparture date: {ticket.DepartureDate.ToString("dd/MM/yyyy HH:mm")};",
                 name = "Phone  payment",
                 quantity = 1,
                 unitPrice = ticket.Amount
@@ -77,7 +77,7 @@ namespace AuthorizePayment
             var lineItem = new lineItemType
             {
                 itemId = "1",
-                description = purchase.ToString(),
+                description = $"Purchase name : {purchase.Name};",
                 name = "Purchase",
                 quantity = purchase.Count,
                 unitPrice = purchase.Amount
