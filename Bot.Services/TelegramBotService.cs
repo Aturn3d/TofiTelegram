@@ -41,7 +41,7 @@ namespace Bot.Services
             var userId = GetUserIdFromUpdate();
             var cachedUser = UsersCache.GetOrAdd(userId);
             if (cachedUser.IsProcessing) {
-                await Bot.SendTextMessageAsync(userId, "Ваш предыдущий запрос обрабатывается, ожидайте");
+                await Bot.SendTextMessageAsync(userId, "Your previous request is being processed, please wait");
             }
             else {
                 try {

@@ -52,6 +52,7 @@ namespace Bot.Services.States.Base
         {
             var useCard = int.Parse(query.Data) > 0;
             if (useCard) {
+                BotService.UserService.DeleteCurrentPayment(BotService.User.Id);
                 await HandlePayment();
             }
             else {
